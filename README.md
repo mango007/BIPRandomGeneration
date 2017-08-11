@@ -1,0 +1,1 @@
+BIP is a component-based language for modeling and programming complex systems. The goal of this project is to develop a tool which can randomly generate BIP models from architectural templates. Concretely, we use a sample BIP file and a template file to randomly generate new models.
