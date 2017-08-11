@@ -1,0 +1,1557 @@
+model TEST
+  port type FirstType
+  port type SecondType(int x)
+  atomic type Source(int seed)
+    data int x
+    export port SecondType Write(x)
+    export port FirstType Loop()
+    place READY
+    place DONE
+    initial to READY
+do {
+        x = seed;
+      }
+    on Write
+      from READY to DONE
+    on Loop
+      from DONE to DONE
+
+
+  end
+
+  atomic type Buffer
+    data int x
+    export port SecondType Read(x)
+    export port SecondType Write(x)
+    place EMPTY
+    place FULL
+    initial to EMPTY
+do {
+      }
+    on Read
+      from EMPTY to FULL
+    on Write
+      from FULL to EMPTY
+
+
+  end
+
+  atomic type Filter
+    data int x
+    export port SecondType Read(x)
+    export port SecondType Write(x)
+    export port FirstType Temp()
+    place EMPTY
+    place FILTER
+    place FULL
+    initial to EMPTY
+do {
+      }
+    on Read
+      from EMPTY to FILTER
+    on Temp
+      from FILTER to FULL
+      provided x<7
+    on Temp
+      from FILTER to EMPTY
+      provided x>=7
+    on Write
+      from FULL to EMPTY
+
+
+
+  end
+
+  connector type Singleton(FirstType p1)
+    define  p1
+    on p1
+      up {
+      }
+
+    down {
+    }
+
+  end
+
+  connector type in1out4out(SecondType p1, SecondType p2, SecondType p3, SecondType p4, SecondType p5)
+    define  p1' p2 p3 p4 p5
+    on p1 p2
+    down {
+      p2.x = p1.x;
+    }
+
+    on p1 p3
+    down {
+      p3.x = p1.x;
+    }
+
+    on p1 p4
+    down {
+      p4.x = p1.x;
+    }
+
+    on p1 p5
+    down {
+      p5.x = p1.x;
+    }
+
+    on p1 p2 p3
+    down {
+      p2.x = p1.x;
+      p3.x = p1.x;
+    }
+
+    on p1 p2 p4
+    down {
+      p2.x = p1.x;
+      p4.x = p1.x;
+    }
+
+    on p1 p2 p5
+    down {
+      p2.x = p1.x;
+      p5.x = p1.x;
+    }
+
+    on p1 p3 p4
+    down {
+      p3.x = p1.x;
+      p4.x = p1.x;
+    }
+
+    on p1 p3 p5
+    down {
+      p3.x = p1.x;
+      p5.x = p1.x;
+    }
+
+    on p1 p4 p5
+    down {
+      p4.x = p1.x;
+      p5.x = p1.x;
+    }
+
+    on p1 p2 p3 p4
+    down {
+      p2.x = p1.x;
+      p3.x = p1.x;
+      p4.x = p1.x;
+    }
+
+    on p1 p2 p3 p5
+    down {
+      p2.x = p1.x;
+      p3.x = p1.x;
+      p5.x = p1.x;
+    }
+
+    on p1 p2 p4 p5
+    down {
+      p2.x = p1.x;
+      p4.x = p1.x;
+      p5.x = p1.x;
+    }
+
+    on p1 p3 p4 p5
+    down {
+      p3.x = p1.x;
+      p4.x = p1.x;
+      p5.x = p1.x;
+    }
+
+    on p1 p2 p3 p4 p5
+    down {
+      p2.x = p1.x;
+      p3.x = p1.x;
+      p4.x = p1.x;
+      p5.x = p1.x;
+    }
+
+  end
+
+  connector type in4out1in(SecondType p1, SecondType p2, SecondType p3, SecondType p4, SecondType p5)
+    define  p5' p1 p2 p3 p4
+    on p1 p5
+    down {
+      p5.x = p1.x;
+    }
+
+    on p2 p5
+    down {
+      p5.x = p2.x;
+    }
+
+    on p3 p5
+    down {
+      p5.x = p3.x;
+    }
+
+    on p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+    on p1 p2 p5
+    down {
+      p5.x = p2.x;
+    }
+
+    on p1 p3 p5
+    down {
+      p5.x = p3.x;
+    }
+
+    on p1 p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+    on p2 p3 p5
+    down {
+      p5.x = p3.x;
+    }
+
+    on p2 p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+    on p3 p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+    on p1 p2 p3 p5
+    down {
+      p5.x = p3.x;
+    }
+
+    on p1 p2 p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+    on p1 p3 p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+    on p2 p3 p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+    on p1 p2 p3 p4 p5
+    down {
+      p5.x = p4.x;
+    }
+
+  end
+
+  connector type in8out1in(SecondType p1, SecondType p2, SecondType p3, SecondType p4, SecondType p5, SecondType p6, SecondType p7, SecondType p8, SecondType p9)
+    define  p9' p1 p2 p3 p4 p5 p6 p7 p8
+    on p1 p9
+    down {
+      p9.x = p1.x;
+    }
+
+    on p2 p9
+    down {
+      p9.x = p2.x;
+    }
+
+    on p3 p9
+    down {
+      p9.x = p3.x;
+    }
+
+    on p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p9
+    down {
+      p9.x = p2.x;
+    }
+
+    on p1 p3 p9
+    down {
+      p9.x = p3.x;
+    }
+
+    on p1 p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p1 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p9
+    down {
+      p9.x = p3.x;
+    }
+
+    on p2 p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p2 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p2 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p3 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p3 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p3 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p9
+    down {
+      p9.x = p3.x;
+    }
+
+    on p1 p2 p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p1 p2 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p2 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p1 p3 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p3 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p3 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p2 p3 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p2 p3 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p3 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p2 p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p3 p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p3 p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p3 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p9
+    down {
+      p9.x = p4.x;
+    }
+
+    on p1 p2 p3 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p2 p3 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p3 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p2 p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p3 p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p3 p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p3 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p2 p3 p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p3 p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p3 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p3 p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p5 p9
+    down {
+      p9.x = p5.x;
+    }
+
+    on p1 p2 p3 p4 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p3 p4 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p4 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p3 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p3 p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p2 p3 p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p3 p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p5 p6 p9
+    down {
+      p9.x = p6.x;
+    }
+
+    on p1 p2 p3 p4 p5 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p4 p5 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p4 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p3 p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p2 p3 p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p3 p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p5 p6 p7 p9
+    down {
+      p9.x = p7.x;
+    }
+
+    on p1 p2 p3 p4 p5 p6 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p5 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p3 p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p2 p3 p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+    on p1 p2 p3 p4 p5 p6 p7 p8 p9
+    down {
+      p9.x = p8.x;
+    }
+
+  end
+
+  compound type Root
+    component Source Source(3)
+    component Buffer B1
+    component Buffer B2
+    component Buffer B3
+    component Buffer B4
+    component Filter F1
+    component Buffer B5
+    component Buffer B6
+    component Buffer B7
+    component Buffer B8
+    component Filter F2
+    component Buffer B9
+    component Buffer B10
+    component Buffer B11
+    component Buffer B12
+    connector Singleton C1(Source.Loop)
+    connector in1out4out C2(Source.Write, B1.Read, B2.Read, B3.Read, B4.Read)
+    connector Singleton C3(F1.Temp)
+    connector in1out4out C4(F1.Write, B5.Read, B6.Read, B7.Read, B8.Read)
+    connector in4out1in C5(B4.Write, B1.Write, B8.Write, B3.Write, F1.Read)
+    connector Singleton C6(F2.Temp)
+    connector in1out4out C7(F2.Write, B9.Read, B10.Read, B11.Read, B12.Read)
+    connector in8out1in C8(B2.Write, B11.Write, B6.Write, B7.Write, B12.Write, B9.Write, B5.Write, B10.Write, F2.Read)
+  end
+
+  component Root root
+end
